@@ -53,6 +53,19 @@
           $harga=$_POST['harga'];
           $jumlah=$_POST['jumlah'];
           $total=$harga*$jumlah;
+          
+          if($jumlah>=10){
+            $diskon=$total*5/100;
+          }else{
+            $diskon=0;
+          }
+
+          if($jumlah>=10){
+            $total=$total-$diskon;
+          }else{
+            $total;
+          }
+
           setcookie("total",$total);
         ?>
         <form action="proses_kembali.php" method="post">
@@ -82,6 +95,14 @@
           </div><br>
           <div class="form-inline">
             <div class="col-12 col-md-3">
+              <label>Diskon :</label>
+            </div>
+            <div class="col-12 col-md-8">
+              <input type="number" min="0" class="form-control w-100" id="diskon" name="diskon" value="<?=$diskon;?>" readonly>
+            </div>
+          </div><br>
+          <div class="form-inline">
+            <div class="col-12 col-md-3">
               <label>Total Harga :</label>
             </div>
             <div class="col-12 col-md-8">
@@ -105,7 +126,7 @@
             </div>
           </div><br>
           <br>
-          <button type="submit" class="btn btn-secondary form-control">Bayar</button>
+          <button type="submit" class="btn btn-secondary form-control" id="tombolBayar">Bayar</button>
         </form>
         <hr class="d-md-none">
       </div>
@@ -142,6 +163,13 @@
 
       var kembali = bayar - total
       document.getElementById('kembali').value = kembali
+      console.log(kembali)
+
+      if(kembali<0){
+        document.getElementById('tombolBayar').disabled=true;
+      }else{
+        document.getElementById('tombolBayar').disabled=false;
+      }
       console.log(kembali)
     }
   </script>
